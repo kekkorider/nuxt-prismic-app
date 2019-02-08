@@ -72,6 +72,17 @@ module.exports = {
           })
       })
 
+      const blogPage = initApi().then(api => {
+        return api
+          .query(Prismic.Predicates.at('document.type', 'blog_post'))
+          .then(response => {
+            return [{
+              route: `/blog`,
+              payload: response.results
+            }]
+          })
+      })
+
       const blogPosts = initApi().then(api => {
         return api
           .query(Prismic.Predicates.at('document.type', 'blog_post'))
@@ -85,8 +96,8 @@ module.exports = {
           })
       })
 
-      return Promise.all([homepage, aboutPage, blogPosts]).then(values => {
-        return [...values[0], ...values[1], ...values[2]]
+      return Promise.all([homepage, aboutPage, blogPage, blogPosts]).then(values => {
+        return [...values[0], ...values[1], ...values[2], ...values[3]]
       })
     }
   },

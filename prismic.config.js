@@ -31,6 +31,10 @@ export const generatePageData = (documentType, data) => {
         title: PrismicDOM.RichText.asText(data.title),
         content: PrismicDOM.RichText.asText(data.content)
       }
+    case 'blog_page':
+      return {
+        posts: data
+      }
     case 'blog_post':
       return {
         title: PrismicDOM.RichText.asText(data.title),
