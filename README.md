@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9ab5efa4-9dd3-4482-93c0-192187096162/deploy-status)](https://app.netlify.com/sites/determined-panini-7baf61/deploys)
+
 # my-nuxt-prismic-app
 
 > My first-rate Nuxt.js project
