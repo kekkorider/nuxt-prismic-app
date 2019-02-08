@@ -12,11 +12,11 @@ import { initApi, generatePageData } from '@/prismic.config'
 export default {
   asyncData(context) {
     if (context.payload) {
-      return generatePageData('homepage', context.payload.data)
+      return generatePageData('about_page', context.payload.data)
     } else {
       return initApi().then(api => {
         return api
-          .query(Prismic.Predicates.at('document.type', 'homepage'))
+          .query(Prismic.Predicates.at('document.type', 'about_page'))
           .then(response => {
             return generatePageData('homepage', response.results[0].data)
           })

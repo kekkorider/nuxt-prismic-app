@@ -1,4 +1,6 @@
 const pkg = require('./package')
+const Prismic = require('prismic-javascript')
+import { initApi } from './prismic.config'
 
 module.exports = {
   mode: 'universal',
@@ -27,6 +29,7 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    '@/assets/css/global.css'
   ],
 
   /*
@@ -41,6 +44,53 @@ module.exports = {
   modules: [
   ],
 
+  generate: {
+    routes: function() {
+      const homepage = initApi().then(api => {
+        return api
+          .query(Prismic.Predicates.at('document.type', 'homepage'))
+          .then(response => {
+            return response.results.map(payload => {
+              return {
+                route: '/',
+                payload
+              }
+            })
+          })
+      })
+
+      const aboutPage = initApi().then(api => {
+        return api
+          .query(Prismic.Predicates.at('document.type', 'about_page'))
+          .then(response => {
+            return response.results.map(payload => {
+              return {
+                route: '/',
+                payload
+              }
+            })
+          })
+      })
+
+      const blogPosts = initApi().then(api => {
+        return api
+          .query(Prismic.Predicates.at('document.type', 'blog_post'))
+          .then(response => {
+            return response.results.map(payload => {
+              return {
+                route: `/blog/${payload.uid}`,
+                payload
+              }
+            })
+          })
+      })
+
+      return Promise.all([homepage, aboutPage, blogPosts]).then(values => {
+        return [...values[0], ...values[1], ...values[2]]
+      })
+    }
+  },
+
   /*
   ** Build configuration
   */
@@ -49,7 +99,7 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
+
     }
   }
 }
