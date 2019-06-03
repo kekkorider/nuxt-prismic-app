@@ -22,11 +22,8 @@ export const queryForDocType = async (docType) => {
 export const generatePageData = (documentType, data) => {
   switch (documentType) {
     case 'homepage':
-      return {
-        title: PrismicDOM.RichText.asText(data.title),
-        content: PrismicDOM.RichText.asText(data.content)
-      }
     case 'about_page':
+    case 'blog_post':
       return {
         title: PrismicDOM.RichText.asText(data.title),
         content: PrismicDOM.RichText.asText(data.content)
@@ -34,11 +31,6 @@ export const generatePageData = (documentType, data) => {
     case 'blog_page':
       return {
         posts: data
-      }
-    case 'blog_post':
-      return {
-        title: PrismicDOM.RichText.asText(data.title),
-        content: PrismicDOM.RichText.asText(data.content)
       }
   }
 }

@@ -15,7 +15,7 @@
 <script>
 import Prismic from 'prismic-javascript'
 import PrismicDOM from 'prismic-dom'
-import { initApi, generatePageData } from '@/prismic.config'
+import { queryForDocType, generatePageData } from '@/prismic.config'
 
 export default {
   data() {
@@ -23,18 +23,16 @@ export default {
       Dom: PrismicDOM
     }
   },
-  asyncData(context) {
-    if (context.payload) {
-      return generatePageData('blog_page', context.payload)
+  async asyncData({ payload }) {
+    let data
+
+    if (payload) {
+      data = payload.data
     } else {
-      return initApi().then(api => {
-        return api
-          .query(Prismic.Predicates.at('document.type', 'blog_post'))
-          .then(response => {
-            return generatePageData('blog_page', response.results)
-          })
-      })
+      const apiData = await queryForDocType('blog_post')
+      data = apiData.results
     }
+    return generatePageData('blog_page', data)
   }
 }
 </script>
