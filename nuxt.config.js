@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 const pkg = require('./package')
 const Prismic = require('prismic-javascript')
-import { initApi } from './prismic.config'
+import { initApi, queryForDocType } from './prismic.config'
 
 module.exports = {
   mode: 'universal',
@@ -45,60 +45,22 @@ module.exports = {
   modules: [['@nuxtjs/dotenv', { systemvars: true }]],
 
   generate: {
-    routes: function() {
-      const homepage = initApi().then(api => {
-        return api
-          .query(Prismic.Predicates.at('document.type', 'homepage'))
-          .then(response => {
-            return response.results.map(payload => {
-              return {
-                route: '/',
-                payload
-              }
-            })
-          })
-      })
+    routes: async function() {
+      const homepageData = await queryForDocType('homepage')
+      const aboutPageData = await queryForDocType('about_page')
+      const blogPostsData = await queryForDocType('blog_post')
 
-      const aboutPage = initApi().then(api => {
-        return api
-          .query(Prismic.Predicates.at('document.type', 'about_page'))
-          .then(response => {
-            return response.results.map(payload => {
-              return {
-                route: '/about',
-                payload
-              }
-            })
-          })
-      })
+      const blogPosts = blogPostsData.results.map(payload => ({ 
+        route: `/blog/${payload.uid}`, 
+        payload 
+      }))
 
-      const blogPage = initApi().then(api => {
-        return api
-          .query(Prismic.Predicates.at('document.type', 'blog_post'))
-          .then(response => {
-            return [{
-              route: `/blog`,
-              payload: response.results
-            }]
-          })
-      })
-
-      const blogPosts = initApi().then(api => {
-        return api
-          .query(Prismic.Predicates.at('document.type', 'blog_post'))
-          .then(response => {
-            return response.results.map(payload => {
-              return {
-                route: `/blog/${payload.uid}`,
-                payload
-              }
-            })
-          })
-      })
-
-      return Promise.all([homepage, aboutPage, blogPage, blogPosts]).then(values => {
-        return [...values[0], ...values[1], ...values[2], ...values[3]]
-      })
+      return [
+        { route: '/', payload: homepageData.results.data },
+        { route: '/about', payload: aboutPageData.results.data },
+        { route: '/blog', payload: blogPostsData.results.data },
+        ...blogPosts
+      ]
     }
   },
 
