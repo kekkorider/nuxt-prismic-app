@@ -1,3 +1,4 @@
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 const pkg = require('./package')
 const Prismic = require('prismic-javascript')
 import { initApi } from './prismic.config'
@@ -41,8 +42,7 @@ module.exports = {
   /*
   ** Nuxt.js modules
   */
-  modules: [
-  ],
+  modules: [['@nuxtjs/dotenv', { systemvars: true }]],
 
   generate: {
     routes: function() {
@@ -65,7 +65,7 @@ module.exports = {
           .then(response => {
             return response.results.map(payload => {
               return {
-                route: '/',
+                route: '/about',
                 payload
               }
             })

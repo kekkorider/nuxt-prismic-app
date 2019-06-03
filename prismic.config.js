@@ -2,9 +2,8 @@ import Prismic from 'prismic-javascript'
 import PrismicDOM from 'prismic-dom'
 
 const config = {
-  baseUrl: 'https://nuxt-prismic-app.cdn.prismic.io/api/v2',
-  access_token:
-    'MC5YRjFwcmhFQUFDSUFvQVJf.77-977-9M2rvv73vv71_f--_vQ7vv73vv73vv70aZWzvv70SRu-_vREl77-977-9fzzvv71y77-977-977-9Gw'
+  baseUrl: process.env.PRISMIC_API_URL,
+  access_token: process.env.PRIMIC_API_KEY
 }
 
 export const initApi = req => {

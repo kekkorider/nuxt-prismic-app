@@ -18,7 +18,7 @@ export default {
         return api
           .query(Prismic.Predicates.at('document.type', 'about_page'))
           .then(response => {
-            return generatePageData('homepage', response.results[0].data)
+            return generatePageData('about_page', response.results[0].data)
           })
       })
     }
