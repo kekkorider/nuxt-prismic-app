@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import Prismic from 'prismic-javascript'
 import PrismicDOM from 'prismic-dom'
 import { queryForDocType, generatePageData } from '@/prismic.config'
 

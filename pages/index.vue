@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import Prismic from 'prismic-javascript'
 import { queryForDocType, generatePageData } from '@/prismic.config'
 
 export default {

@@ -1,7 +1,6 @@
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
 const pkg = require("./package");
-const Prismic = require("prismic-javascript");
-import { initApi, queryForDocType } from "./prismic.config";
+import { queryForDocType } from "./prismic.config";
 
 module.exports = {
   mode: "universal",
